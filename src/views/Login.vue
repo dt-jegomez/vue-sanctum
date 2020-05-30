@@ -21,6 +21,9 @@
   </section>
 </template>
 <script>
+  import axios from 'axios'
+  axios.defaults.withCredentials = true
+  axios.defaults.baseURL = 'http://localhost:8000'
   export default {
     data(){
       return {
@@ -32,9 +35,13 @@
       }
     },
     methods: {
-      login(){
-        console.log('eveinado',this.form);
-        
+      async login(){
+        await axios.get('/sanctum/csrf-cookie')
+            axios.post('/login', this.form).then(res => {
+              console.log(res)  
+            }).catch(e => {
+              console.log(e)          
+            })
       }
     }
   }
